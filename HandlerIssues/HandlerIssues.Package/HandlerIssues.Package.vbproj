@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>WinFormsHandlerIssues</PackageId>
+    <PackageVersion>1.0.0.0</PackageVersion>
+    <Authors>Paul M Cohen</Authors>
+    <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/paul1956/HandlerIssues</PackageProjectUrl>
+    <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
+    <RepositoryUrl>https://github.com/paul1956/HandlerIssues</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>Detect and fix issues in WinForms Application where a Event Handler was deleted or misnamed.</Description>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Copyright>Copyright (c) .NET Foundation and Contributors</Copyright>
+    <PackageTags>HandlerIssues, analyzers</PackageTags>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
+
+    <OptionStrict>On</OptionStrict>
+
+    <OptionInfer>Off</OptionInfer>
+
+    <Title>WinForms Handler Issues (Missing and Misnamed)</Title>
+
+    <Company>Travel By Paul</Company>
+
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HandlerIssues.CodeFixes\HandlerIssues.CodeFixes.vbproj" />
+    <ProjectReference Include="..\HandlerIssues\HandlerIssues.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="tools\*.ps1" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <Target Name="_AddAnalyzersToOutput">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)\HandlerIssues.dll" PackagePath="analyzers/dotnet/vb" />
+      <TfmSpecificPackageFile Include="$(OutputPath)\HandlerIssues.CodeFixes.dll" PackagePath="analyzers/dotnet/vb" />
+    </ItemGroup>
+  </Target>
+
+</Project>
