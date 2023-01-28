@@ -18,7 +18,7 @@ Private Sub OKBut_Click(sender As Object, e As EventArgs) Handles OKButton.Click
 The function about should be called OKButton_Click
 
 It also detects Handler that are missing and offer a CodeFix to replace
-``'
+```
 Private Sub OKButton_Click(sender As Object, e As EventArgs)
 ```
 This sometimes happen when WinForms designer has errors and deletes Handler Clause.
