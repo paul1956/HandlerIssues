@@ -50,7 +50,6 @@ Public Class AddHandlerCodeFixProvider
         Dim optionSet As Options.OptionSet = originalSolution.Workspace.Options
 
         Dim oldRoot As SyntaxNode = Await oldRootTask
-        Dim newRoot As SyntaxNode = oldRoot.ReplaceNode(subStatement, newSub)
         ' Produce a new solution that has all references to that type renamed, including the declaration.
         Return document.WithSyntaxRoot(oldRoot.ReplaceNode(subStatement, newSub)).Project.Solution
     End Function
