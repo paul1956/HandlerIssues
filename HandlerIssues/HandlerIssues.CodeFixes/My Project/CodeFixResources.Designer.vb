@@ -72,7 +72,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("AddHandler", resourceCulture)
             End Get
         End Property
-        
+
         '''<summary>
         '''  Looks up a localized string similar to Correct Sub Name.
         '''</summary>
