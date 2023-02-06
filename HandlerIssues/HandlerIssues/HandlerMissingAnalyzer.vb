@@ -6,6 +6,7 @@ Imports System.Collections.Immutable
 
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.Diagnostics
+Imports Microsoft.CodeAnalysis.FindSymbols
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 
@@ -68,11 +69,32 @@ Public Class MissingHandlerAnalyzer
                 If type1.Keyword.Text <> "Object" Then
                     Exit Sub
                 End If
-            End If
-            Dim diagnostic As Diagnostic = Diagnostic.Create(s_rule,
+                Dim classBlock As ClassBlockSyntax = methodStatement.FirstAncestorOfType(Of ClassBlockSyntax)
+
+                For Each usedHandler As AddRemoveHandlerStatementSyntax In classBlock.DescendantNodesAndSelf(Function() True).OfType(Of AddRemoveHandlerStatementSyntax).ToList()
+                    Dim unaryExpression As UnaryExpressionSyntax = usedHandler.DelegateExpression
+                    Dim memberAccess As MemberAccessExpressionSyntax = TryCast(unaryExpression.Operand, MemberAccessExpressionSyntax)
+                    Dim subName As String = methodStatement.Identifier.ValueText
+
+                    If memberAccess IsNot Nothing Then
+                        If memberAccess.Name.Identifier.ValueText = subName Then
+                            Exit Sub
+                        End If
+                    Else
+                        Dim identifierName As IdentifierNameSyntax = TryCast(unaryExpression.Operand, NameSyntax)
+                        If identifierName IsNot Nothing Then
+                            If identifierName.Identifier.ValueText = subName Then
+                                Exit Sub
+                            End If
+                        End If
+                    End If
+                Next
+
+                Dim diagnostic As Diagnostic = Diagnostic.Create(s_rule,
                                      methodStatement.GetLocation,
                                      methodStatement.Identifier.Text)
-            context.ReportDiagnostic(diagnostic)
+                context.ReportDiagnostic(diagnostic)
+            End If
         End If
     End Sub
 

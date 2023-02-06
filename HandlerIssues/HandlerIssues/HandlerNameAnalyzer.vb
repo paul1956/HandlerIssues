@@ -46,34 +46,13 @@ Public Class HandlerNameAnalyzer
             Exit Sub
         End If
         Dim handlesClauseItem As HandlesClauseItemSyntax = handlesClause.Events(0)
-        Dim classBlock As ClassBlockSyntax = methodStatement.FirstAncestorOfType(Of ClassBlockSyntax)
-        Dim classStatement As ClassStatementSyntax = classBlock.ClassStatement
-        If classStatement.ContainsDiagnostics Then
+
+        Dim correctSubName As String
+        correctSubName = GetCorrectSubName(methodStatement, handlesClauseItem)
+        ' We have handles clause
+        If String.IsNullOrWhiteSpace(correctSubName) Then
             Exit Sub
         End If
-
-        Dim keywordEventContainer As KeywordEventContainerSyntax = TryCast(handlesClauseItem.EventContainer, KeywordEventContainerSyntax)
-        Dim member As IdentifierNameSyntax = handlesClauseItem.EventMember
-        Dim memberName As String = member.Identifier.Text
-        Dim correctSubName As String
-        If keywordEventContainer IsNot Nothing Then
-            correctSubName = $"{classStatement.Identifier.Text}_{memberName}"
-            If methodStatement.Identifier.Text = correctSubName Then
-                Exit Sub
-            End If
-        Else
-            Dim withEventsEventContainer As WithEventsEventContainerSyntax = TryCast(handlesClauseItem.EventContainer, WithEventsEventContainerSyntax)
-            If withEventsEventContainer Is Nothing Then
-                Exit Sub
-            End If
-            Dim memberToken As SyntaxToken = withEventsEventContainer.Identifier
-            correctSubName = $"{memberToken.Text}_{memberName}"
-
-            If methodStatement.Identifier.Text = correctSubName Then
-                Exit Sub
-            End If
-        End If
-        ' We have handles clause
         context.ReportDiagnostic(Diagnostic.Create(Rule,
                                  methodStatement.Identifier.GetLocation,
                                  correctSubName))

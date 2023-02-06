@@ -121,6 +121,6 @@
     <value>Add Handler</value>
   </data>
   <data name="FixNamingViolation" xml:space="preserve">
-    <value>Correct Filename</value>
+    <value>Correct Sub Name</value>
   </data>
 </root>

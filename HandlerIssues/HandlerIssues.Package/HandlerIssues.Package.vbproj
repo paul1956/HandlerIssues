@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>WinFormsHandlerIssues</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <PackageVersion>1.0.0.1</PackageVersion>
     <Authors>Paul M Cohen</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/paul1956/HandlerIssues</PackageProjectUrl>

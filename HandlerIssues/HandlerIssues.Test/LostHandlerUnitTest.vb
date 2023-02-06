@@ -14,13 +14,6 @@ Namespace HandlerIssues.Test
     <TestClass>
     Public Class LostHandlerUnitTest
 
-        'No diagnostics expected to show up
-        <TestMethod>
-        Public Async Function TestNoAction() As Task
-            Dim test As String = ""
-            Await VerifyVB.VerifyAnalyzerAsync(test)
-        End Function
-
         'Diagnostic And CodeFix both triggered And checked for
         <TestMethod>
         Public Async Function TestLostHandler() As Task
@@ -77,6 +70,72 @@ End Class
             Await VerifyVB.VerifyAnalyzerAsync(test, expected)
             Await VerifyVB.VerifyCodeFixAsync(test, expected, fixTest)
 
+        End Function
+
+        'No diagnostics expected to show up
+        <TestMethod>
+        Public Async Function TestNoAction() As Task
+            Dim test As String = ""
+            Await VerifyVB.VerifyAnalyzerAsync(test)
+        End Function
+
+        'No diagnostics expected to show up
+        <TestMethod>
+        Public Async Function TestNoAction2() As Task
+            Dim test As String = "Imports System
+Imports System.Windows.Forms
+Public Class BGMiniWindow
+    Inherits Form
+
+    Private Sub BGTextBox_GotFocus()
+    End Sub
+
+End Class
+"
+
+            Await VerifyVB.VerifyAnalyzerAsync(test)
+        End Function
+
+        'No diagnostics expected to show up
+        <TestMethod>
+        Public Async Function TestNoAction3() As Task
+            Dim test As String = "Imports System
+Imports System.Windows.Forms
+Public Class BGMiniWindow
+    Inherits Form
+
+   Private Sub GotFocus1(sender As Object, e As EventArgs)
+    End Sub
+
+    Private Sub X()
+        AddHandler MyBase.GotFocus, AddressOf Me.GotFocus1
+    End Sub
+
+End Class
+"
+
+            Await VerifyVB.VerifyAnalyzerAsync(test)
+        End Function
+
+        'No diagnostics expected to show up
+        <TestMethod>
+        Public Async Function TestNoAction4() As Task
+            Dim test As String = "Imports System
+Imports System.Windows.Forms
+Public Class BGMiniWindow
+    Inherits Form
+
+   Private Sub GotFocus1(sender As Object, e As EventArgs)
+    End Sub
+
+    Private Sub X()
+        AddHandler MyBase.GotFocus, AddressOf GotFocus1
+    End Sub
+
+End Class
+"
+
+            Await VerifyVB.VerifyAnalyzerAsync(test)
         End Function
 
     End Class

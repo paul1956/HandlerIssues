@@ -74,7 +74,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Correct Filename.
+        '''  Looks up a localized string similar to Correct Sub Name.
         '''</summary>
         Public Shared ReadOnly Property FixNamingViolation() As String
             Get
